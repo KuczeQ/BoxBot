@@ -16,7 +16,7 @@ class Funny(commands.Cog):
 
     @app_commands.command(name="pandaimg", description="Send a Panda image")
     async def panda(self, inte:discord.interactions):
-        embed=discord.Embed(title="Panda", color=0xE657EE)
+        embed=discord.Embed(title="Panda", color=0x00ff00)
         embed.set_image(url=requests.get("https://some-random-api.com/animal/panda").json()["image"])
         await inte.response.send_message(embed=embed) 
 
