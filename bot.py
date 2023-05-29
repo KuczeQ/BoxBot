@@ -19,7 +19,7 @@ class Bot(commands.Bot):
                 await self.tree.sync()
 
     async def on_ready(self):
-        print(f"{self.user} połączył się z Discordem.")
+        print(f"{self.user} Connected with Discord.")
 
 def get_token():
     with open("token.txt", "r") as file:
