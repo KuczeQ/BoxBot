@@ -37,4 +37,10 @@ async def on_ready():
     print('Made by Bartuś O❤#4052 / https://github.com/KuczeQ/BoxBot')
     await bot.change_presence(status=discord.Status.online, activity=discord.Activity(name="github.com/KuczeQ", type=discord.ActivityType.watching))
 
+@bot.command(name="restart")
+@commands.is_owner()
+async def restart(ctx):
+    await bot.reload_hook()
+    print("restart")
+
 bot.run(get_token())
