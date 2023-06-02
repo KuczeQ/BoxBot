@@ -103,7 +103,7 @@ class Funny(commands.Cog):
             file = discord.File("kotfilemon.gif", filename="image.gif")
             embed=discord.Embed(title="Your triggered avatar", color=0x00ff00)
             embed.set_image(url="attachment://image.gif")
-            embed.set_footer(text="Create by github.com/KuczeQ", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
+            embed.set_footer(text="Create with https://some-random-api.com", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
             await inte.response.send_message(embed=embed, file=file)
 
     
