@@ -4,6 +4,7 @@ from discord.ext import commands, tasks
 import os
 import random
 import requests
+import shutil
 
 class Funny(commands.Cog):
     def __init__(self, bot:commands.Bot) -> None:
@@ -68,6 +69,42 @@ class Funny(commands.Cog):
             embed = discord.Embed(title="Server does not have an icon", color=0x00ff00)
             embed.set_footer(text="Create by github.com/KuczeQ", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
             await inte.response.send_message(embed=embed)
+
+    @app_commands.command(name="coinflip", description="Coin flip simulation")
+    async def coinflip(self, inte:discord.Interaction):
+        choices = ["Orzeł", "Reszka"]
+        rancoin = random.choice(choices)
+        embed=discord.Embed(title=(rancoin), color=0x00ff00)
+        embed.set_footer(text="Create by github.com/KuczeQ", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
+        await inte.response.send_message(embed=embed) 
+
+    @app_commands.command(name="slap", description="Slap chosen user")
+    async def slap(self, inte:discord.interactions, user: discord.Member):
+        if user.name == inte.user.name:
+            embed=discord.Embed(title="You slap yourself", color=0xff3399)
+            embed.set_image(url=requests.get("http://api.nekos.fun:8080/api/slap").json()["image"])
+            embed.set_footer(text="Create by github.com/KuczeQ", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
+            return await inte.response.send_message(embed=embed)
+        embed=discord.Embed(title=f"**{inte.user.name}** slap **{user.name}**!", color=0xff3399)
+        embed.set_image(url=requests.get("http://api.nekos.fun:8080/api/slap").json()["image"])
+        embed.set_footer(text="Create by github.com/KuczeQ", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
+        await inte.response.send_message(embed=embed)  
+
+    @app_commands.command(name="triggeravatar", description="Send a triggered user avatar")
+    async def trigger(self, inte:discord.interactions, user: discord.Member):
+        url = (f"https://some-random-api.com/canvas/overlay/triggered?avatar={user.display_avatar.url}")
+        file_name = "triggered.gif"
+        res = requests.get(url, stream = True)
+        if res.status_code == 200:
+            with open(file_name,'wb') as f:
+                shutil.copyfileobj(res.raw, f)
+
+        with open('triggered.gif', 'rb') as f:
+            file = discord.File("kotfilemon.gif", filename="image.gif")
+            embed=discord.Embed(title="Your triggered avatar", color=0x00ff00)
+            embed.set_image(url="attachment://image.gif")
+            embed.set_footer(text="Create by github.com/KuczeQ", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
+            await inte.response.send_message(embed=embed, file=file)
 
     
 async def setup(bot:commands.Bot) -> None:
