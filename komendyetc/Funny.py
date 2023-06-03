@@ -100,13 +100,40 @@ class Funny(commands.Cog):
                 shutil.copyfileobj(res.raw, f)
 
         with open('triggered.gif', 'rb') as f:
-            file = discord.File("kotfilemon.gif", filename="image.gif")
+            file = discord.File("triggered.gif", filename="triggered.gif")
             embed=discord.Embed(title="Your triggered avatar", color=0x00ff00)
-            embed.set_image(url="attachment://image.gif")
+            embed.set_image(url="attachment://triggered.gif")
             embed.set_footer(text="Create with https://some-random-api.com", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
             await inte.response.send_message(embed=embed, file=file)
 
+    @app_commands.command(name="feed", description="Feed chosen user")
+    async def feed(self, inte:discord.interactions, member: discord.Member):
+        if member.name == inte.user.name:
+            embed=discord.Embed(title="U feed yourself", color=0x00ff00)
+            embed.set_image(url=requests.get("http://api.nekos.fun:8080/api/feed").json()["image"])
+            embed.set_footer(text="Create by github.com/KuczeQ", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
+            return await inte.response.send_message(embed=embed)
+        embed=discord.Embed(title=f"**{inte.user.name}** feed **{member.name}**!", color=0x00ff00)
+        embed.set_image(url=requests.get("http://api.nekos.fun:8080/api/feed").json()["image"])
+        embed.set_footer(text="Create by github.com/KuczeQ", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
+        return await inte.response.send_message(embed=embed)
     
+    @app_commands.command(name="hornylicense", description="Create horny license")
+    async def hornylicense(self, inte:discord.interactions, user:discord.Member):
+        licenses = (f"https://some-random-api.com/canvas/misc/horny?avatar={user.display_avatar.url}")
+        file_name = "honrylicense.png"
+        request = requests.get(licenses, stream=True)
+        if request.status_code == 200:
+            with open(file_name, "wb") as f:
+                shutil.copyfileobj(request.raw, f)
+        
+        with open("honrylicense.png", "rb") as f:
+            file = discord.File("honrylicense.png", filename="image.png")
+            embed=discord.Embed(title="Your horny license", color=0x00ff00)
+            embed.set_image(url="attachment://image.png")
+            embed.set_footer(text="Create with https://some-random-api.com", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
+            await inte.response.send_message(embed=embed, file=file)
+
 async def setup(bot:commands.Bot) -> None:
     print("Uploaded Funny Cog")
     await bot.add_cog(Funny(bot))   
