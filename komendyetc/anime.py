@@ -58,7 +58,7 @@ class Anime(commands.Cog):
         self.bot=bot
 
     @app_commands.command(name='animesearch', description='Search for chosen anime')
-    async def anime(self, inte:discord.interactions, search_query: str):
+    async def animesearch(self, inte:discord.interactions, search_query: str):
         variables = {
             'search': search_query
         }
@@ -95,7 +95,7 @@ class Anime(commands.Cog):
 
 
     @app_commands.command(name='charactersearch', description='Search for chosen anime character')
-    async def anime(self, inte:discord.interactions, search_query: str):
+    async def animecharsearch(self, inte:discord.interactions, search_query: str):
         variables = {
             'search': search_query
         }

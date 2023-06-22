@@ -72,7 +72,7 @@ class Funny(commands.Cog):
 
     @app_commands.command(name="coinflip", description="Coin flip simulation")
     async def coinflip(self, inte:discord.Interaction):
-        choices = ["Orzeł", "Reszka"]
+        choices = ["Heads", "tails"]
         rancoin = random.choice(choices)
         embed=discord.Embed(title=(rancoin), color=0x00ff00)
         embed.set_footer(text="Create by github.com/KuczeQ", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
@@ -81,11 +81,11 @@ class Funny(commands.Cog):
     @app_commands.command(name="slap", description="Slap chosen user")
     async def slap(self, inte:discord.interactions, user: discord.Member):
         if user.name == inte.user.name:
-            embed=discord.Embed(title="You slap yourself", color=0xff3399)
+            embed=discord.Embed(title="You slap yourself", color=0x00ff00)
             embed.set_image(url=requests.get("http://api.nekos.fun:8080/api/slap").json()["image"])
             embed.set_footer(text="Create by github.com/KuczeQ", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
             return await inte.response.send_message(embed=embed)
-        embed=discord.Embed(title=f"**{inte.user.name}** slap **{user.name}**!", color=0xff3399)
+        embed=discord.Embed(title=f"**{inte.user.name}** slap **{user.name}**!", color=0x00ff00)
         embed.set_image(url=requests.get("http://api.nekos.fun:8080/api/slap").json()["image"])
         embed.set_footer(text="Create by github.com/KuczeQ", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
         await inte.response.send_message(embed=embed)  
@@ -133,6 +133,39 @@ class Funny(commands.Cog):
             embed.set_image(url="attachment://image.png")
             embed.set_footer(text="Create with https://some-random-api.com", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
             await inte.response.send_message(embed=embed, file=file)
+
+    @app_commands.command(name="nobitches", description="Create nobitches meme")
+    async def nobitches(self, inte:discord.interactions, text:str):
+        bitches = (f"https://some-random-api.com/canvas/misc/nobitches?no={text}")
+        file_name = "bitches.png"
+        request = requests.get(bitches, stream=True)
+        if request.status_code == 200:
+            with open(file_name, "wb") as f:
+                shutil.copyfileobj(request.raw, f)
+        
+        with open("bitches.png", "rb") as f:
+            file = discord.File("bitches.png", filename="image.png")
+            embed=discord.Embed(title="Your no bitches meme", color=0x00ff00)
+            embed.set_image(url="attachment://image.png")
+            embed.set_footer(text="Create with https://some-random-api.com", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
+            await inte.response.send_message(embed=embed, file=file)
+
+    @app_commands.command(name="twittercomment", description="Create fictional twitter comment")
+    async def twitter(self, inte:discord.interactions, comment:str, name:str, useravatar:discord.Member):
+        twitter = (f"https://some-random-api.com/canvas/misc/tweet?comment={comment}&displayname={name}&avatar={useravatar.display_avatar.url}&username={name}&queries=")
+        file_name = "twitter.png"
+        request = requests.get(twitter, stream=True)
+        if request.status_code == 200:
+            with open(file_name, "wb") as f:
+                shutil.copyfileobj(request.raw, f)
+        
+        with open("twitter.png", "rb") as f:
+            file = discord.File("twitter.png", filename="image.png")
+            embed=discord.Embed(title="Your fictional twitter comment", color=0x00ff00)
+            embed.set_image(url="attachment://image.png")
+            embed.set_footer(text="Create with https://some-random-api.com", icon_url="https://avatars.githubusercontent.com/u/65510168?v=4")
+            await inte.response.send_message(embed=embed, file=file)
+
 
 async def setup(bot:commands.Bot) -> None:
     print("Uploaded Funny Cog")
